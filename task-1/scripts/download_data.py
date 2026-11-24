@@ -122,3 +122,4 @@ def generate_synthetic_dataset(dest_path, n_rows=5000):
 
 if __name__ == '__main__':
     download_dataset()
+

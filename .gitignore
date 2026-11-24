@@ -30,3 +30,4 @@ Thumbs.db
 # Large Data files (keep raw smaller samples if needed, ignore big dumps)
 # data/raw/*.zip
 # data/raw/*.tar.gz
+

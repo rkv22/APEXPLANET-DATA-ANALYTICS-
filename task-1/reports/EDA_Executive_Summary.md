@@ -50,3 +50,4 @@ The following visual artifacts have been generated and archived in `reports/`:
 - **Database:** SQLite database provisioned at `data/processed/superstore.db` via SQLAlchemy.
 - **Cleaned Data:** Processed dataset saved at `data/processed/superstore_sales_cleaned.csv` (5,000 rows, 29 attributes).
 - **Notebook:** Documented interactive workflow at `notebooks/01_exploratory_data_analysis.ipynb`.
+
