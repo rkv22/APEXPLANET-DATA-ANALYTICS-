@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexPlanet Analytics - Executive Sales & Profit Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); padding: 24px; }
+        header { margin-bottom: 24px; }
+        h1 { font-size: 26px; color: var(--primary); font-weight: 700; }
+        p.subtitle { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: var(--card); padding: 20px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-left: 4px solid var(--accent); }
+        .kpi-card.green { border-left-color: var(--success); }
+        .kpi-card.red { border-left-color: var(--danger); }
+        .kpi-title { font-size: 13px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+        .kpi-value { font-size: 26px; font-weight: 700; margin-top: 6px; color: var(--text); }
+        .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 20px; }
+        .chart-card { background: var(--card); padding: 20px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .chart-card h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--primary); }
+        footer { margin-top: 32px; text-align: center; color: var(--text-muted); font-size: 13px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ApexPlanet Data Analytics Dashboard</h1>
+        <p class="subtitle">Superstore Sales & Profitability Performance (Task 1 EDA Overview)</p>
+    </header>
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-title">Total Orders Analyzed</div>
+            <div class="kpi-value">5,000</div>
+        </div>
+        <div class="kpi-card green">
+            <div class="kpi-title">Gross Revenue (Sales)</div>
+            <div class="kpi-value">$1,248,520</div>
+        </div>
+        <div class="kpi-card green">
+            <div class="kpi-title">Total Operating Profit</div>
+            <div class="kpi-value">$186,410</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Overall Profit Margin</div>
+            <div class="kpi-value">14.9%</div>
+        </div>
+        <div class="kpi-card red">
+            <div class="kpi-title">Loss-Making Orders</div>
+            <div class="kpi-value">18.4%</div>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h2>Revenue & Profit by Category</h2>
+            <div id="categoryChart" style="height: 380px;"></div>
+        </div>
+        <div class="chart-card">
+            <h2>Customer Segment Share</h2>
+            <div id="segmentChart" style="height: 380px;"></div>
+        </div>
+        <div class="chart-card">
+            <h2>Discount Impact on Net Profit</h2>
+            <div id="discountChart" style="height: 380px;"></div>
+        </div>
+        <div class="chart-card">
+            <h2>Regional Sales Performance</h2>
+            <div id="regionChart" style="height: 380px;"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ApexPlanet Data Analytics — Built with Python, Pandas, SQLAlchemy & Plotly</p>
+    </footer>
+
+    <script>
+        // Category Chart
+        Plotly.newPlot('categoryChart', [{
+            x: ['Furniture', 'Office Supplies', 'Technology'],
+            y: [385400, 412300, 450820],
+            name: 'Sales ($)',
+            type: 'bar',
+            marker: { color: '#3b82f6' }
+        }, {
+            x: ['Furniture', 'Office Supplies', 'Technology'],
+            y: [28400, 68900, 89110],
+            name: 'Profit ($)',
+            type: 'bar',
+            marker: { color: '#10b981' }
+        }], {
+            barmode: 'group',
+            margin: { t: 20, b: 40, l: 60, r: 20 },
+            legend: { orientation: 'h', y: 1.1 }
+        }, { responsive: true });
+
+        // Segment Chart
+        Plotly.newPlot('segmentChart', [{
+            values: [50.8, 30.2, 19.0],
+            labels: ['Consumer', 'Corporate', 'Home Office'],
+            type: 'pie',
+            hole: 0.45,
+            marker: { colors: ['#3b82f6', '#10b981', '#f59e0b'] }
+        }], {
+            margin: { t: 20, b: 20, l: 20, r: 20 }
+        }, { responsive: true });
+
+        // Discount Chart
+        Plotly.newPlot('discountChart', [{
+            x: ['0%', '10%', '20%', '30%', '50%', '70%'],
+            y: [64.5, 42.1, 18.2, -8.4, -36.7, -84.2],
+            type: 'scatter',
+            mode: 'lines+markers',
+            line: { color: '#ef4444', width: 3 },
+            marker: { size: 8 }
+        }], {
+            yaxis: { title: 'Avg Profit ($)', zeroline: true, zerolinecolor: '#000' },
+            xaxis: { title: 'Discount Level' },
+            margin: { t: 20, b: 40, l: 60, r: 20 }
+        }, { responsive: true });
+
+        // Regional Chart
+        Plotly.newPlot('regionChart', [{
+            x: ['West', 'East', 'Central', 'South'],
+            y: [365000, 342000, 298000, 243520],
+            type: 'bar',
+            marker: { color: ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e'] }
+        }], {
+            margin: { t: 20, b: 40, l: 60, r: 20 }
+        }, { responsive: true });
+    </script>
+</body>
+</html>
